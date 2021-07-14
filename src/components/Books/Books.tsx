@@ -1,9 +1,12 @@
-import {Card, List } from 'antd';
+import {Button, Card, List} from 'antd';
 import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
-import { selectBooks } from '../../redux/searchBooksSelectors';
+
+import {selectBooks, selectIsFetching, selectSearchResults} from '../../redux/searchBooksSelectors';
 import styles from "./Book.module.css";
-import bookPlaceholder from "../../common/images/book-placeholder.png";
+import bookPlaceholder from "../../assets/images/book-placeholder.png";
+import Preloader300px from "../../assets/images/Preloader300px.svg";
+import Preloader from "../../common/Preloader/Preloader";
 
 export const Books: React.FC = React.memo(() => {
 
@@ -46,17 +49,30 @@ export const Books: React.FC = React.memo(() => {
     }, [])
 
     const books = useSelector(selectBooks);
+    const searchResults = useSelector(selectSearchResults);
+    const isFetching = useSelector(selectIsFetching);
+
 
     // return array of div with styles from string array
-    const printItemsList = (items: string[], style: string): JSX.Element[] => {
-        const itemsList = items.map((item, index) => {
-            return <div key={index} className={style}>{item}</div>
-        })
-        return itemsList;
+    const printItemsList = (items: string[], style: string): JSX.Element => {
+        let str = '';
+        if (items) {
+            items.forEach((item, index) => {
+                str += item;
+                if (index + 1 !== items.length) {
+                    str += ', '
+                }
+            })
+        }
+        return <div className={style}>{str}</div>;
     }
 
+    if (isFetching) {
+        return <Preloader src={Preloader300px} />
+    }
     return (
         <div className={styles.wrapper}>
+            <div>{searchResults}</div>
             <List
                 grid={{ gutter: 16, column: col }}
                 dataSource={books}
@@ -78,10 +94,12 @@ export const Books: React.FC = React.memo(() => {
                             {printItemsList(item.volumeInfo.categories, styles.categories)}
                             <div className={styles.title}>{item.volumeInfo.title}</div>
                             {printItemsList(item.volumeInfo.authors, styles.authors)}
+                            <a href={item.volumeInfo.infoLink}>Link to Google Shop</a>
                         </Card>
                     </List.Item>
                 )}
             />
+            <Button size="large">Load more...</Button>
         </div>
     );
 })
