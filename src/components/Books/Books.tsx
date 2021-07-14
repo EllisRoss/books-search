@@ -9,6 +9,7 @@ export const Books: React.FC = React.memo(() => {
 
     const [col, setCol] = useState(4)
 
+    // set max columns in antd List
     const handleResize = () => {
         if (window.innerWidth < 600) {
             setCol(1);
@@ -46,6 +47,7 @@ export const Books: React.FC = React.memo(() => {
 
     const books = useSelector(selectBooks);
 
+    // return array of div with styles from string array
     const printItemsList = (items: string[], style: string): JSX.Element[] => {
         const itemsList = items.map((item, index) => {
             return <div key={index} className={style}>{item}</div>

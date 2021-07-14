@@ -6,6 +6,9 @@ import styles from './Header.module.css'
 
 
 export const Header: React.FC = React.memo(() => {
+
+
+
     return (
         <div className={styles.wrapper}>
             <div className={styles.heading}>

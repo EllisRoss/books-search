@@ -2,9 +2,11 @@ import {AppStateType, InferActionTypes} from "./store";
 import {Book} from "../types/types";
 
 const BOOKS_RECEIVED = 'books-search/search/BOOKS_RECEIVED';
+const IS_FETCHING_CHANGED = 'books-search/search/IS_FETCHING_CHANGED';
 
 let initialState = {
     searchResults: 0,
+    isFetching: false,
     books: [
         {
             "kind": "books#volume",
@@ -1152,7 +1154,9 @@ let initialState = {
 const searchBooksReducer = (state = initialState, action: ActionTypes): InitialStateType => {
     switch (action.type) {
         case BOOKS_RECEIVED:
-            return booksReceived(state, action.newBooks)
+            return booksReceived(state, action.newBooks);
+        case IS_FETCHING_CHANGED:
+            return isFetchingChanged(state, action.fetchingVal)
         default:
             return state;
     }
@@ -1165,8 +1169,16 @@ const booksReceived = (state: InitialStateType, newBooks: Book[]) => {
     }
 }
 
+const isFetchingChanged = (state: InitialStateType, fetchingVal: boolean) => {
+    return {
+        ...state,
+        isFetching: fetchingVal,
+    }
+}
+
 export const searchBooksActions = {
-    booksReceived: (newBooks: Book[]) => ({type: BOOKS_RECEIVED, newBooks})
+    booksReceived: (newBooks: Book[]) => ({type: BOOKS_RECEIVED, newBooks} as const),
+    isFetchingChanged: (fetchingVal: boolean) => ({type: IS_FETCHING_CHANGED, fetchingVal} as const),
 }
 
 type InitialStateType = typeof initialState;
