@@ -1,5 +1,7 @@
 import {AppStateType, InferActionTypes} from "./store";
 import {Book} from "../types/types";
+import {ThunkAction} from "redux-thunk";
+import {GetBooksResponseData, searchBooksAPI} from "../api/api";
 
 const BOOKS_RECEIVED = 'books-search/search/BOOKS_RECEIVED';
 const IS_FETCHING_CHANGED = 'books-search/search/IS_FETCHING_CHANGED';
@@ -1192,6 +1194,27 @@ export const searchBooksActions = {
     searchResultsChanged: (amountOfResults: number) => ({type: SEARCH_RESULTS_CHANGED, amountOfResults} as const),
 }
 
+export const getBooks = (query: string): ThunkType =>
+    async (dispatch) => {
+        dispatch(searchBooksActions.isFetchingChanged(true));
+        debugger
+        try {
+            const payload: GetBooksResponseData = await searchBooksAPI.getBooks(query);
+            if (!payload.totalItems || payload.totalItems === 0) {
+                throw new Error('getBooks() has Error');
+            }
+            dispatch(searchBooksActions.booksReceived(payload.items))
+            dispatch(searchBooksActions.searchResultsChanged(payload.totalItems))
+        } catch (e) {
+            console.error(e.message)
+        }
+        finally {
+            dispatch(searchBooksActions.isFetchingChanged(false));
+        }
+    }
+
+
 type InitialStateType = typeof initialState;
 type ActionTypes = InferActionTypes<typeof searchBooksActions>;
+type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionTypes>;
 export default searchBooksReducer;
