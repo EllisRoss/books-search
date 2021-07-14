@@ -1,12 +1,22 @@
-.wrapper {
+.background {
+    overflow: hidden;
+    background-image:url("./../../assets/images/background-2.jpg");
+    min-width: 320px;
+    max-width: 1920px;
+    min-height: 200px;
+    margin: 0 auto;
+}
+
+.header {
     width: 300px;
     margin: 0 auto;
 }
 
 .heading {
     font-size: 20pt;
+    color: white;
     text-align: center;
-    margin-top: 20px;
+    margin-top: 40px;
     margin-bottom: 20px;
 }
 
