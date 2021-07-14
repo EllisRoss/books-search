@@ -3,6 +3,7 @@ import {Book} from "../types/types";
 
 const BOOKS_RECEIVED = 'books-search/search/BOOKS_RECEIVED';
 const IS_FETCHING_CHANGED = 'books-search/search/IS_FETCHING_CHANGED';
+const SEARCH_RESULTS_CHANGED = 'books-search/search/SEARCH_RESULTS_CHANGED';
 
 let initialState = {
     searchResults: 0,
@@ -1156,7 +1157,9 @@ const searchBooksReducer = (state = initialState, action: ActionTypes): InitialS
         case BOOKS_RECEIVED:
             return booksReceived(state, action.newBooks);
         case IS_FETCHING_CHANGED:
-            return isFetchingChanged(state, action.fetchingVal)
+            return isFetchingChanged(state, action.fetchingVal);
+        case SEARCH_RESULTS_CHANGED:
+            return searchResultsChanged(state, action.amountOfResults)
         default:
             return state;
     }
@@ -1176,9 +1179,17 @@ const isFetchingChanged = (state: InitialStateType, fetchingVal: boolean) => {
     }
 }
 
+const searchResultsChanged = (state: InitialStateType, amountOfResults: number) => {
+    return {
+        ...state,
+        searchResults: amountOfResults,
+    }
+}
+
 export const searchBooksActions = {
     booksReceived: (newBooks: Book[]) => ({type: BOOKS_RECEIVED, newBooks} as const),
     isFetchingChanged: (fetchingVal: boolean) => ({type: IS_FETCHING_CHANGED, fetchingVal} as const),
+    searchResultsChanged: (amountOfResults: number) => ({type: SEARCH_RESULTS_CHANGED, amountOfResults} as const),
 }
 
 type InitialStateType = typeof initialState;
