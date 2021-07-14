@@ -10,29 +10,67 @@ export type Book = {
     selfLink: string,
     volumeInfo: {
         title: string,
-        authors: string[],
+        authors: [
+            string
+        ],
+        publisher: string,
         publishedDate: string,
-        description: string,
+        description:  string,
         industryIdentifiers: IndustryIdentity[],
         readingModes: {
             text: boolean,
-            image: boolean
+            image: boolean,
         },
         pageCount: number,
+        printedPageCount: number,
         printType: string,
         categories: string[],
         maturityRating: string,
         allowAnonLogging: boolean,
         contentVersion: string,
+        panelizationSummary: {
+            containsEpubBubbles: boolean,
+            containsImageBubbles: boolean
+        },
+        imageLinks?: {
+            smallThumbnail?: string,
+            thumbnail?: string,
+            small?: string,
+            medium?: string,
+            large?: string,
+            extraLarge?: string,
+        },
         language: string,
         previewLink: string,
         infoLink: string,
-        canonicalVolumeLink: string
+        canonicalVolumeLink: string,
     },
     saleInfo: {
         country: string,
         saleability: string,
-        isEbook: boolean
+        isEbook: boolean,
+        listPrice: {
+            amount: number,
+            currencyCode: string
+        },
+        retailPrice: {
+            amount: number,
+            currencyCode: string
+        },
+        buyLink: string,
+        offers: [
+            {
+                finskyOfferType: number,
+                listPrice: {
+                    amountInMicros: number,
+                    currencyCode: string
+                },
+                retailPrice: {
+                    amountInMicros: number,
+                    currencyCode: string
+                }
+            }
+        ]
     },
     accessInfo: {
         country: string,
@@ -44,13 +82,14 @@ export type Book = {
             isAvailable: boolean
         },
         pdf: {
-            isAvailable: boolean
+            isAvailable: boolean,
+            acsTokenLink?: string
         },
         webReaderLink: string,
         accessViewStatus: string,
         quoteSharingAllowed: boolean
     },
     searchInfo: {
-        textSnippet: string
+        textSnippet: string,
     }
 }

@@ -1,0 +1,32 @@
+.wrapper {
+    padding: 20px;
+}
+
+.cardWrapper {
+    background-color: lightgrey;
+    width: 300px;
+    height: 460px;
+}
+
+.cover {
+    width: 128px;
+    height: 187px;
+    margin: 0 auto;
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+
+.categories {
+    color: grey;
+    padding: 10px;
+}
+
+.authors {
+    color: grey;
+    padding: 10px;
+}
+
+.title {
+    font-size: 15pt;
+    padding: 10px;
+}

@@ -1,0 +1,20 @@
+.wrapper {
+    width: 300px;
+    margin: 0 auto;
+}
+
+.heading {
+    font-size: 20pt;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.input {
+    width: 268px;
+    display: inline-block;
+}
+
+.button {
+    display: inline-block;
+}
