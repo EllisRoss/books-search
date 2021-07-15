@@ -33,3 +33,9 @@
     font-size: 14pt;
     padding: 10px;
 }
+
+.foundResults {
+    font-size: 14pt;
+    text-align: center;
+    padding-bottom: 20px;
+}

@@ -68,13 +68,17 @@ export const Books: React.FC = React.memo(() => {
     }
 
     if (isFetching) {
-        return <Preloader src={Preloader300px} />
+        return <Preloader src={Preloader300px}/>
     }
     return (
         <div className={styles.wrapper}>
-            <div>{searchResults}</div>
+            {
+                books.length > 0 &&
+                <div className={styles.foundResults}>Found {searchResults} results</div>
+            }
+
             <List
-                grid={{ gutter: 16, column: col }}
+                grid={{gutter: 16, column: col}}
                 dataSource={books}
                 renderItem={item => (
                     <List.Item>
@@ -99,7 +103,10 @@ export const Books: React.FC = React.memo(() => {
                     </List.Item>
                 )}
             />
-            <Button size="large">Load more...</Button>
+            {
+                books.length > 0 &&
+                <Button  size="large">Load more...</Button>
+            }
         </div>
     );
 })
