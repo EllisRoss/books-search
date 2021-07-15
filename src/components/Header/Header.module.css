@@ -1,8 +1,8 @@
 .background {
     overflow: hidden;
     background-image:url("./../../assets/images/background-2.jpg");
-    min-width: 320px;
-    max-width: 1920px;
+    /*min-width: 320px;*/
+    /*max-width: 1920px;*/
     min-height: 200px;
     margin: 0 auto;
 }
@@ -27,4 +27,22 @@
 
 .button {
     display: inline-block;
+}
+
+.categoriesLabel {
+    color: white;
+    padding: 10px;
+    font-size: 14pt;
+}
+.categoriesSelect {
+    width: 120px
+}
+
+.sortingLabel {
+    color: white;
+    padding: 10px;
+    font-size: 14pt;
+}
+.sortingSelect {
+    width: 120px
 }
