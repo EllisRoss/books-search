@@ -93,3 +93,12 @@ export type Book = {
         textSnippet: string,
     }
 }
+
+export type Categories = 'all' | 'art' | 'biography' | 'computers' | 'history' | 'medical' | 'poetry';
+export type SortingBy = 'relevance' | 'newest';
+
+export type Filter = {
+    query: string,
+    category: Categories,
+    sortBy: SortingBy,
+}

@@ -5,7 +5,7 @@ import { SearchOutlined } from '@ant-design/icons';
 import styles from './Header.module.css'
 import {useDispatch} from "react-redux";
 import {getBooks} from "../../redux/searchBooksReducer";
-import { Categories, SortingBy } from '../../api/api';
+import { Categories, SortingBy } from '../../types/types';
 
 
 export const Header: React.FC = React.memo(() => {

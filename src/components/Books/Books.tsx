@@ -2,7 +2,7 @@ import {Button, Card, List} from 'antd';
 import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 
-import {selectBooks, selectIsFetching, selectSearchResults} from '../../redux/searchBooksSelectors';
+import {selectBooks, selectIsFetching, selectPageSize, selectSearchResults} from '../../redux/searchBooksSelectors';
 import styles from "./Book.module.css";
 import bookPlaceholder from "../../assets/images/book-placeholder.png";
 import Preloader300px from "../../assets/images/Preloader300px.svg";
@@ -51,7 +51,11 @@ export const Books: React.FC = React.memo(() => {
     const books = useSelector(selectBooks);
     const searchResults = useSelector(selectSearchResults);
     const isFetching = useSelector(selectIsFetching);
+    const pageSize = useSelector(selectPageSize);
 
+    const onLoadMore = () => {
+
+    }
 
     // return array of div with styles from string array
     const printItemsList = (items: string[], style: string): JSX.Element => {
@@ -105,7 +109,7 @@ export const Books: React.FC = React.memo(() => {
             />
             {
                 books.length > 0 &&
-                <Button  size="large">Load more...</Button>
+                <Button onClick={onLoadMore} size="large">Load more...</Button>
             }
         </div>
     );

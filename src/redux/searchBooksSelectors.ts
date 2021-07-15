@@ -12,3 +12,6 @@ export const selectSearchResults = (state: AppStateType): number => {
 export const selectIsFetching = (state: AppStateType): boolean => {
     return state.searchBooksPage.isFetching;
 }
+export const selectPageSize = (state: AppStateType): number => {
+    return state.searchBooksPage.pageSize;
+}
