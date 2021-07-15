@@ -1,4 +1,4 @@
-import { Book } from "../types/types";
+import { Book, Filter } from "../types/types";
 import {AppStateType} from "./store";
 
 export const selectBooks = (state: AppStateType): Book[] => {
@@ -9,9 +9,17 @@ export const selectSearchResults = (state: AppStateType): number => {
     return state.searchBooksPage.searchResults;
 }
 
-export const selectIsFetching = (state: AppStateType): boolean => {
-    return state.searchBooksPage.isFetching;
+export const selectIsFetchingBooks = (state: AppStateType): boolean => {
+    return state.searchBooksPage.isFetchingBooks;
 }
+export const selectIsFetchingMoreBooks = (state: AppStateType): boolean => {
+    return state.searchBooksPage.isFetchingMoreBooks;
+}
+
 export const selectPageSize = (state: AppStateType): number => {
     return state.searchBooksPage.pageSize;
 }
+export const selectFilter = (state: AppStateType): Filter | null => {
+    return state.searchBooksPage.filter;
+}
+

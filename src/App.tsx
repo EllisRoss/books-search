@@ -1,6 +1,5 @@
 import React from 'react';
 import {Provider} from 'react-redux';
-import styles from './App.module.css';
 import store from './redux/store';
 import 'antd/dist/antd.css';
 import {Header} from './components/Header/Header';

@@ -1,12 +1,19 @@
 import {Button, Card, List} from 'antd';
 import React, {useEffect, useState} from 'react';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
-import {selectBooks, selectIsFetching, selectPageSize, selectSearchResults} from '../../redux/searchBooksSelectors';
+import {
+    selectBooks,
+    selectFilter,
+    selectIsFetchingBooks, selectIsFetchingMoreBooks,
+    selectPageSize,
+    selectSearchResults
+} from '../../redux/searchBooksSelectors';
 import styles from "./Book.module.css";
 import bookPlaceholder from "../../assets/images/book-placeholder.png";
 import Preloader300px from "../../assets/images/Preloader300px.svg";
 import Preloader from "../common/Preloader/Preloader";
+import {loadMoreBooks} from "../../redux/searchBooksReducer";
 
 export const Books: React.FC = React.memo(() => {
 
@@ -48,13 +55,19 @@ export const Books: React.FC = React.memo(() => {
         }
     }, [])
 
+    const dispatch = useDispatch();
+
     const books = useSelector(selectBooks);
     const searchResults = useSelector(selectSearchResults);
-    const isFetching = useSelector(selectIsFetching);
+    const isFetchingBooks = useSelector(selectIsFetchingBooks);
+    const isFetchingMoreBooks = useSelector(selectIsFetchingMoreBooks);
     const pageSize = useSelector(selectPageSize);
+    const filter = useSelector(selectFilter);
 
     const onLoadMore = () => {
-
+        if (filter) {
+            dispatch(loadMoreBooks(filter.query, filter.category, filter.sortBy, pageSize));
+        }
     }
 
     // return array of div with styles from string array
@@ -71,7 +84,7 @@ export const Books: React.FC = React.memo(() => {
         return <div className={style}>{str}</div>;
     }
 
-    if (isFetching) {
+    if (isFetchingBooks) {
         return <Preloader src={Preloader300px}/>
     }
     return (
@@ -110,6 +123,10 @@ export const Books: React.FC = React.memo(() => {
             {
                 books.length > 0 &&
                 <Button onClick={onLoadMore} size="large">Load more...</Button>
+            }
+            {
+                isFetchingMoreBooks &&
+                    <Preloader src={Preloader300px} />
             }
         </div>
     );
