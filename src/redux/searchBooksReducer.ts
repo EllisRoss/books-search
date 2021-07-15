@@ -1299,7 +1299,7 @@ export const loadMoreBooks = (query: string, categories: Categories, sortingBy: 
         }
     }
 
-type InitialStateType = typeof initialState;
+export type InitialStateType = typeof initialState;
 type ActionTypes = InferActionTypes<typeof searchBooksActions>;
 type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionTypes>;
 export default searchBooksReducer;
