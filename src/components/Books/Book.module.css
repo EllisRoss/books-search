@@ -9,8 +9,9 @@
 }
 
 .cover {
-    width: 128px;
-    height: 187px;
+    width: 130px;
+    height: 190px;
+    overflow:hidden;
     margin: 0 auto;
     padding-top: 10px;
     padding-bottom: 20px;

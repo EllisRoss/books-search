@@ -6,7 +6,7 @@ import {selectBooks, selectIsFetching, selectSearchResults} from '../../redux/se
 import styles from "./Book.module.css";
 import bookPlaceholder from "../../assets/images/book-placeholder.png";
 import Preloader300px from "../../assets/images/Preloader300px.svg";
-import Preloader from "../../common/Preloader/Preloader";
+import Preloader from "../common/Preloader/Preloader";
 
 export const Books: React.FC = React.memo(() => {
 
