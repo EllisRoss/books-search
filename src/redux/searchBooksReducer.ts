@@ -4,11 +4,17 @@ import {ThunkAction} from "redux-thunk";
 import {Categories, GetBooksResponseData, searchBooksAPI, SortingBy} from "../api/api";
 import {getEnabledCategories} from "trace_events";
 
+// const IncrementPageSizeStep = 10;
+
 const BOOKS_RECEIVED = 'books-search/search/BOOKS_RECEIVED';
+const MORE_BOOKS_RECEIVED = 'books-search/search/MORE_BOOKS_RECEIVED';
 const IS_FETCHING_CHANGED = 'books-search/search/IS_FETCHING_CHANGED';
 const SEARCH_RESULTS_CHANGED = 'books-search/search/SEARCH_RESULTS_CHANGED';
 
+// const PAGE_SIZE_CHANGED = 'books-search/search/PAGE_SIZE_CHANGED';
+
 let initialState = {
+    // pageSize: 10,
     searchResults: 0,
     isFetching: false,
     books: [
@@ -1159,6 +1165,8 @@ const searchBooksReducer = (state = initialState, action: ActionTypes): InitialS
     switch (action.type) {
         case BOOKS_RECEIVED:
             return booksReceived(state, action.newBooks);
+        case MORE_BOOKS_RECEIVED:
+            return moreBooksReceived(state, action.newBooks);
         case IS_FETCHING_CHANGED:
             return isFetchingChanged(state, action.fetchingVal);
         case SEARCH_RESULTS_CHANGED:
@@ -1172,6 +1180,13 @@ const booksReceived = (state: InitialStateType, newBooks: Book[]) => {
     return {
         ...state,
         books: [...newBooks],
+    }
+}
+
+const moreBooksReceived = (state: InitialStateType, newBooks: Book[]) => {
+    return {
+        ...state,
+        books: [...state.books, ...newBooks],
     }
 }
 
@@ -1191,6 +1206,7 @@ const searchResultsChanged = (state: InitialStateType, amountOfResults: number) 
 
 export const searchBooksActions = {
     booksReceived: (newBooks: Book[]) => ({type: BOOKS_RECEIVED, newBooks} as const),
+    moreBooksReceived: (newBooks: Book[]) => ({type: MORE_BOOKS_RECEIVED, newBooks} as const),
     isFetchingChanged: (fetchingVal: boolean) => ({type: IS_FETCHING_CHANGED, fetchingVal} as const),
     searchResultsChanged: (amountOfResults: number) => ({type: SEARCH_RESULTS_CHANGED, amountOfResults} as const),
 }
