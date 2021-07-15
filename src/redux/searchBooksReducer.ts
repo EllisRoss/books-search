@@ -3,7 +3,7 @@ import {Book, Categories, Filter, SortingBy} from "../types/types";
 import {ThunkAction} from "redux-thunk";
 import {GetBooksResponseData, searchBooksAPI} from "../api/api";
 
-const IncrementPageSizeStep = 10;
+const IncrementPageSizeStep = 30;
 
 const BOOKS_RECEIVED = 'books-search/search/BOOKS_RECEIVED';
 const MORE_BOOKS_RECEIVED = 'books-search/search/MORE_BOOKS_RECEIVED';
@@ -13,9 +13,12 @@ const SEARCH_RESULTS_CHANGED = 'books-search/search/SEARCH_RESULTS_CHANGED';
 const PAGE_SIZE_INCREMENTED = 'books-search/search/PAGE_SIZE_INCREMENTED';
 const FILTER_CHANGED = 'books-search/search/FILTER_CHANGED';
 
+const BOOK_INFO_CHANGED = 'books-search/search/BOOK_INFO_CHANGED';
+
 let initialState = {
+    bookInfo: null as null | Book,
     filter: null as null | Filter,
-    pageSize: 10,
+    pageSize: 30,
     searchResults: 0,
     isFetchingBooks: false,
     isFetchingMoreBooks: false,
@@ -1167,6 +1170,8 @@ const searchBooksReducer = (state = initialState, action: ActionTypes): InitialS
     switch (action.type) {
         case BOOKS_RECEIVED:
             return booksReceived(state, action.newBooks);
+        case BOOK_INFO_CHANGED:
+            return bookInfoChanged(state, action.newBookInfo);
         case MORE_BOOKS_RECEIVED:
             return moreBooksReceived(state, action.newBooks);
         case IS_FETCHING_BOOKS_CHANGED:
@@ -1233,6 +1238,13 @@ const pageSizeIncremented = (state: InitialStateType) => {
     }
 }
 
+const bookInfoChanged = (state: InitialStateType, newBookInfo: Book) => {
+    return {
+        ...state,
+        bookInfo: newBookInfo,
+    }
+}
+
 export const searchBooksActions = {
     booksReceived: (newBooks: Book[]) => ({type: BOOKS_RECEIVED, newBooks} as const),
     moreBooksReceived: (newBooks: Book[]) => ({type: MORE_BOOKS_RECEIVED, newBooks} as const),
@@ -1240,10 +1252,14 @@ export const searchBooksActions = {
     isFetchingBooksChanged: (fetchingVal: boolean) => ({type: IS_FETCHING_BOOKS_CHANGED, fetchingVal} as const),
     searchResultsChanged: (amountOfResults: number) => ({type: SEARCH_RESULTS_CHANGED, amountOfResults} as const),
     filterChanged: (newFilter: Filter) => ({type: FILTER_CHANGED, newFilter} as const),
-    isFetchingMoreBooksChanged: (fetchingVal: boolean) => ({type: IS_FETCHING_MORE_BOOKS_CHANGED, fetchingVal} as const),
+    isFetchingMoreBooksChanged: (fetchingVal: boolean) => ({
+        type: IS_FETCHING_MORE_BOOKS_CHANGED,
+        fetchingVal
+    } as const),
+    bookInfoChanged: (newBookInfo: Book) => ({type: BOOK_INFO_CHANGED, newBookInfo} as const),
 }
 
-export const getBooks = (query: string, categories: Categories,  sortingBy: SortingBy): ThunkType =>
+export const getBooks = (query: string, categories: Categories, sortingBy: SortingBy): ThunkType =>
     async (dispatch) => {
         dispatch(searchBooksActions.isFetchingBooksChanged(true));
 
@@ -1254,38 +1270,34 @@ export const getBooks = (query: string, categories: Categories,  sortingBy: Sort
         }
         dispatch(searchBooksActions.filterChanged(filter));
         try {
-            const payload: GetBooksResponseData = await searchBooksAPI.getBooks(query, categories,  sortingBy);
-            if (payload.items.length > 0) {
+            const payload: GetBooksResponseData = await searchBooksAPI.getBooks(query, categories, sortingBy);
+            if (payload.items && payload.items.length > 0) {
                 dispatch(searchBooksActions.booksReceived(payload.items))
                 dispatch(searchBooksActions.searchResultsChanged(payload.totalItems))
             }
         } catch (e) {
             console.error(e)
-        }
-        finally {
+        } finally {
             dispatch(searchBooksActions.isFetchingBooksChanged(false));
         }
     }
 
-export const loadMoreBooks = (query: string, categories: Categories,  sortingBy: SortingBy, pageSize: number): ThunkType =>
+// add next page to books array
+export const loadMoreBooks = (query: string, categories: Categories, sortingBy: SortingBy, pageSize: number): ThunkType =>
     async (dispatch) => {
         dispatch(searchBooksActions.isFetchingMoreBooksChanged(true));
         try {
-            const payload: GetBooksResponseData = await searchBooksAPI.getBooks(query, categories,  sortingBy, pageSize);
-            if (payload.items.length > 0) {
+            const payload: GetBooksResponseData = await searchBooksAPI.getBooks(query, categories, sortingBy, pageSize);
+            if (payload.items && payload.items.length > 0) {
                 dispatch(searchBooksActions.moreBooksReceived(payload.items))
                 dispatch(searchBooksActions.pageSizeIncremented())
             }
         } catch (e) {
             console.error(e)
-        }
-        finally {
+        } finally {
             dispatch(searchBooksActions.isFetchingMoreBooksChanged(false));
         }
     }
-
-
-
 
 type InitialStateType = typeof initialState;
 type ActionTypes = InferActionTypes<typeof searchBooksActions>;

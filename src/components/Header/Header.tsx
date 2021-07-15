@@ -1,13 +1,14 @@
-import React, {useState} from 'react';
+import React from 'react';
 import 'antd/dist/antd.css';
 import {SearchOutlined} from '@ant-design/icons';
 import styles from './Header.module.css'
 import {useDispatch} from "react-redux";
 import {getBooks} from "../../redux/searchBooksReducer";
 import {Filter} from '../../types/types';
-import {Field, Form, Formik, FormikHelpers} from 'formik';
+import {Form, Formik, FormikHelpers} from 'formik';
 import {Input, Select, SubmitButton} from 'formik-antd';
 import {Col, Row} from "antd";
+import {useHistory} from "react-router-dom";
 
 type FormErrors = {
     query?: string
@@ -18,11 +19,13 @@ type FormValues = Filter;
 export const Header: React.FC = () => {
 
     const dispatch = useDispatch();
+    const history = useHistory();
 
 
     const onSubmit = (values: FormValues, actions: FormikHelpers<FormValues>) => {
         actions.setSubmitting(false);
         dispatch(getBooks(values.query, values.category, values.sortBy))
+        history.push('/books');
     }
 
     const initialValues: FormValues = {query: '', category: 'all' , sortBy: 'relevance'}

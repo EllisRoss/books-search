@@ -1,0 +1,38 @@
+.wrapper {
+    padding: 20px;
+}
+
+.coverWrapper {
+    background-color: #e9e9e9;
+    height: 100%;
+    padding: 20px;
+}
+
+.coverWrapper img {
+    width: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+    object-position: center;
+}
+
+.categories {
+    color: grey;
+    padding-left: 20px;
+}
+
+.authors {
+    color: grey;
+    padding-left: 20px;
+}
+
+.title {
+    font-size: 16pt;
+    padding-left: 20px;
+    padding-bottom: 20px;
+}
+
+.description {
+    font-size: 14pt;
+    /*text-align: center;*/
+    padding: 20px;
+}

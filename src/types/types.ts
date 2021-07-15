@@ -3,48 +3,50 @@ export type IndustryIdentity = {
     identifier: string,
 }
 
+export type BookVolumeInfo = {
+    title: string,
+    authors: [
+        string
+    ],
+    publisher: string,
+    publishedDate: string,
+    description:  string,
+    industryIdentifiers: IndustryIdentity[],
+    readingModes: {
+        text: boolean,
+        image: boolean,
+    },
+    pageCount: number,
+    printedPageCount: number,
+    printType: string,
+    categories: string[],
+    maturityRating: string,
+    allowAnonLogging: boolean,
+    contentVersion: string,
+    panelizationSummary: {
+        containsEpubBubbles: boolean,
+        containsImageBubbles: boolean
+    },
+    imageLinks?: {
+        smallThumbnail?: string,
+        thumbnail?: string,
+        small?: string,
+        medium?: string,
+        large?: string,
+        extraLarge?: string,
+    },
+    language: string,
+    previewLink: string,
+    infoLink: string,
+    canonicalVolumeLink: string,
+};
+
 export type Book = {
     kind: string,
     id: string,
     etag: string,
     selfLink: string,
-    volumeInfo: {
-        title: string,
-        authors: [
-            string
-        ],
-        publisher: string,
-        publishedDate: string,
-        description:  string,
-        industryIdentifiers: IndustryIdentity[],
-        readingModes: {
-            text: boolean,
-            image: boolean,
-        },
-        pageCount: number,
-        printedPageCount: number,
-        printType: string,
-        categories: string[],
-        maturityRating: string,
-        allowAnonLogging: boolean,
-        contentVersion: string,
-        panelizationSummary: {
-            containsEpubBubbles: boolean,
-            containsImageBubbles: boolean
-        },
-        imageLinks?: {
-            smallThumbnail?: string,
-            thumbnail?: string,
-            small?: string,
-            medium?: string,
-            large?: string,
-            extraLarge?: string,
-        },
-        language: string,
-        previewLink: string,
-        infoLink: string,
-        canonicalVolumeLink: string,
-    },
+    volumeInfo: BookVolumeInfo,
     saleInfo: {
         country: string,
         saleability: string,

@@ -1,4 +1,4 @@
-import {Button, Card, List} from 'antd';
+import {Button, List} from 'antd';
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -9,11 +9,12 @@ import {
     selectPageSize,
     selectSearchResults
 } from '../../redux/searchBooksSelectors';
-import styles from "./Book.module.css";
-import bookPlaceholder from "../../assets/images/book-placeholder.png";
+import styles from "./Books.module.css";
 import Preloader300px from "../../assets/images/Preloader300px.svg";
 import Preloader from "../common/Preloader/Preloader";
-import {loadMoreBooks} from "../../redux/searchBooksReducer";
+import {loadMoreBooks, searchBooksActions} from "../../redux/searchBooksReducer";
+import {NavLink} from 'react-router-dom';
+import {CardItem} from "./CardItem";
 
 export const Books: React.FC = React.memo(() => {
 
@@ -70,20 +71,6 @@ export const Books: React.FC = React.memo(() => {
         }
     }
 
-    // return array of div with styles from string array
-    const printItemsList = (items: string[], style: string): JSX.Element => {
-        let str = '';
-        if (items) {
-            items.forEach((item, index) => {
-                str += item;
-                if (index + 1 !== items.length) {
-                    str += ', '
-                }
-            })
-        }
-        return <div className={style}>{str}</div>;
-    }
-
     if (isFetchingBooks) {
         return <Preloader src={Preloader300px}/>
     }
@@ -99,34 +86,22 @@ export const Books: React.FC = React.memo(() => {
                 dataSource={books}
                 renderItem={item => (
                     <List.Item>
-                        <Card hoverable={true} className={styles.cardWrapper}>
-                            <div className={styles.cover}>
-                                {
-                                    item.volumeInfo.imageLinks &&
-                                    <img src={item.volumeInfo.imageLinks?.thumbnail} alt=""/>
-                                }
-
-                                {
-                                    !item.volumeInfo.imageLinks &&
-                                    <img src={bookPlaceholder} alt=""/>
-                                }
-                            </div>
-
-                            {printItemsList(item.volumeInfo.categories, styles.categories)}
-                            <div className={styles.title}>{item.volumeInfo.title}</div>
-                            {printItemsList(item.volumeInfo.authors, styles.authors)}
-                            <a href={item.volumeInfo.infoLink}>Link to Google Shop</a>
-                        </Card>
+                        <NavLink to={'/book/' + item.id} onClick={() => {
+                            // dispatch current book data to state
+                            dispatch(searchBooksActions.bookInfoChanged(item))
+                        }}>
+                            <CardItem itemInfo={item.volumeInfo} />
+                        </NavLink>
                     </List.Item>
                 )}
             />
             {
-                books.length > 0 &&
-                <Button onClick={onLoadMore} size="large">Load more...</Button>
+                isFetchingMoreBooks &&
+                <Preloader src={Preloader300px}/>
             }
             {
-                isFetchingMoreBooks &&
-                    <Preloader src={Preloader300px} />
+                books.length > 0 &&
+                <Button className={styles.loadMoreButton} onClick={onLoadMore} size="large">Load more...</Button>
             }
         </div>
     );
