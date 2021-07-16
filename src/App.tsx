@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Provider} from 'react-redux';
 import store from './redux/store';
 import 'antd/dist/antd.css';
@@ -8,6 +8,19 @@ import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
 import { Book } from './components/Book/Book';
 
 const App: React.FC = React.memo(() => {
+
+    const catchAllUnhandledErrors = (event: PromiseRejectionEvent) => {
+        alert(event.reason);
+    }
+
+    useEffect(() => {
+        window.addEventListener('unhandledrejection', catchAllUnhandledErrors);
+
+        return () => {
+            window.removeEventListener("unhandledrejection", catchAllUnhandledErrors);
+        }
+    }, [])
+
     return (
         <div>
             <Header/>
@@ -22,7 +35,7 @@ const App: React.FC = React.memo(() => {
 })
 
 
-export const SearchBooksApp: React.FC = React.memo(() => {
+export const SearchBooksApp: React.FC = () => {
     return (
         <React.StrictMode>
             <BrowserRouter>
@@ -32,4 +45,4 @@ export const SearchBooksApp: React.FC = React.memo(() => {
             </BrowserRouter>
         </React.StrictMode>
     );
-})
+}

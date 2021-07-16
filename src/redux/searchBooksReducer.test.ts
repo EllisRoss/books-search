@@ -1,4 +1,4 @@
-import {Book, BookVolumeInfo, Filter} from "../types/types";
+import {Book, Filter} from "../types/types";
 import searchBooksReducer, {InitialStateType, searchBooksActions} from "./searchBooksReducer";
 
 let state: InitialStateType = {
