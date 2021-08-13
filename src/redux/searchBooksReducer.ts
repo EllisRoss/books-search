@@ -151,6 +151,17 @@ export const loadMoreBooks = (query: string, categories: Categories, sortingBy: 
         }
     }
 
+// request single book
+export const getBook = (id: string): ThunkType =>
+    async (dispatch) => {
+        try {
+            const payload: Book = await searchBooksAPI.getBook(id);
+            dispatch(searchBooksActions.bookInfoChanged(payload))
+        } catch (e) {
+            console.error(e)
+        }
+    }
+
 export type InitialStateType = typeof initialState;
 type ActionTypes = InferActionTypes<typeof searchBooksActions>;
 type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionTypes>;
