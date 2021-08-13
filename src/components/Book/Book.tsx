@@ -1,27 +1,34 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {selectBookInfo} from "../../redux/searchBooksSelectors";
-import {Col, Row} from "antd";
+import {selectBookInfo, selectIsFetchingBook} from "../../redux/searchBooksSelectors";
+import {Col, Empty, Row} from "antd";
 import styles from "./Book.module.css"
 import bookPlaceholder from "../../assets/images/book-placeholder.png";
 import {useHistory} from "react-router-dom";
 import {getBook} from "../../redux/searchBooksReducer";
 import Preloader from "../common/Preloader/Preloader";
-import Preloader300px from "../../assets/images/Preloader300px.svg";
+import preloader300px from "../../assets/images/Preloader300px.svg";
 
 export const Book: React.FC = React.memo(() => {
 
     const bookInfo = useSelector(selectBookInfo);
+    const isFetchingBook = useSelector(selectIsFetchingBook);
     const history = useHistory();
     const dispatch = useDispatch();
 
     useEffect(() => {
         // get book id from url
         const booksId = history.location.pathname.split('/')[2];
-        if (!bookInfo && booksId) {
-            dispatch(getBook(booksId))
+        if (booksId && booksId.length > 0) {
+            if (!bookInfo) {
+                dispatch(getBook(booksId))
+            }
         }
     },[]);
+
+    if (isFetchingBook) {
+        return <Preloader src={preloader300px} />
+    }
 
     if (bookInfo) {
         return (
@@ -48,9 +55,9 @@ export const Book: React.FC = React.memo(() => {
                 </Row>
             </div>
         );
+    } else {
+        return (
+            <Empty />
+        );
     }
-
-    return (
-        <Preloader src={Preloader300px} />
-    );
 })
