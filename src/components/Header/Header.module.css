@@ -57,7 +57,7 @@
     width: 230px;
 }
 
-@media (max-width: 330px) {
+@media (max-width: 500px) {
     .header__filter {
         width: 230px;
     }
