@@ -31,9 +31,9 @@ export const Header: React.FC = () => {
     const initialValues: FormValues = {query: '', category: 'all' , sortBy: 'relevance'}
 
     return (
-        <div className={styles.background}>
+        <div className={styles.header}>
             <div>
-                <div className={styles.heading}>
+                <div className={styles.header__title}>
                     <b>Search for books</b>
                 </div>
                 <Formik
@@ -49,36 +49,42 @@ export const Header: React.FC = () => {
                 >
                     {({isSubmitting}) => (
                         <Form>
-                            <div className={styles.header}>
-                                <Input name="query" className={styles.input}/>
+                            <div className={styles.header__search}>
+                                <Input name="query" className={styles.header__input}/>
 
 
                                 <SubmitButton shape="circle"
                                               disabled={isSubmitting}
-                                              className={styles.button}
+                                              className={styles.header__button}
                                               icon={<SearchOutlined/>}/>
                             </div>
-                            <Row>
-                                <Col>
-                                    <label className={styles.categoriesLabel}>Categories</label>
-                                    <Select className={styles.categoriesSelect} name="category">
-                                        <Select.Option value="all">all</Select.Option>
-                                        <Select.Option value="art">art</Select.Option>
-                                        <Select.Option value="biography">biography</Select.Option>
-                                        <Select.Option value="computers">computers</Select.Option>
-                                        <Select.Option value="history">history</Select.Option>
-                                        <Select.Option value="medical">medical</Select.Option>
-                                        <Select.Option value="poetry">poetry</Select.Option>
-                                    </Select>
-                                </Col>
-                                <Col>
-                                    <label className={styles.sortingLabel}>Sorting by</label>
-                                    <Select className={styles.sortingSelect} name="sortBy">
-                                        <Select.Option value="relevance">relevance</Select.Option>
-                                        <Select.Option value="newest">newest</Select.Option>
-                                    </Select>
-                                </Col>
-                            </Row>
+                            <div className={styles.header__filter}>
+                                <Row>
+                                    <Col>
+                                        <div className={styles.header__category}>
+                                            <label className={styles.header__label}>Categories</label>
+                                            <Select className={styles.header__select} name="category">
+                                                <Select.Option value="all">all</Select.Option>
+                                                <Select.Option value="art">art</Select.Option>
+                                                <Select.Option value="biography">biography</Select.Option>
+                                                <Select.Option value="computers">computers</Select.Option>
+                                                <Select.Option value="history">history</Select.Option>
+                                                <Select.Option value="medical">medical</Select.Option>
+                                                <Select.Option value="poetry">poetry</Select.Option>
+                                            </Select>
+                                        </div>
+                                    </Col>
+                                    <Col>
+                                        <div className={styles.header__sort}>
+                                            <label className={styles.header__label}>Sorting by</label>
+                                            <Select className={styles.header__select} name="sortBy">
+                                                <Select.Option value="relevance">relevance</Select.Option>
+                                                <Select.Option value="newest">newest</Select.Option>
+                                            </Select>
+                                        </div>
+                                    </Col>
+                                </Row>
+                            </div>
                         </Form>
                     )}
                 </Formik>
