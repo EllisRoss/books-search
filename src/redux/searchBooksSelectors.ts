@@ -22,3 +22,7 @@ export const selectFilter = (state: AppStateType): Filter | null => {
 export const selectBookInfo = (state: AppStateType): Book | null => {
     return state.searchBooksPage.bookInfo;
 }
+
+export const selectIsFetchingBook = (state: AppStateType): boolean => {
+    return state.searchBooksPage.isFetchingBook;
+}

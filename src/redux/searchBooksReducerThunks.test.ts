@@ -372,8 +372,11 @@ test("get book thunk success", async () => {
 
     await thunk(dispatchMock, getStateMock, {});
 
-    expect(dispatchMock).toBeCalledTimes(1)
-
+    expect(dispatchMock).toBeCalledTimes(3)
     expect(dispatchMock).toHaveBeenNthCalledWith(1,
+        searchBooksActions.isFetchingBookChanged(true))
+    expect(dispatchMock).toHaveBeenNthCalledWith(2,
         searchBooksActions.bookInfoChanged(bookResponseResult))
+    expect(dispatchMock).toHaveBeenNthCalledWith(3,
+        searchBooksActions.isFetchingBookChanged(false))
 })

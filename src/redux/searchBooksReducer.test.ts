@@ -108,6 +108,7 @@ let state: InitialStateType = {
     searchResults: 0,
     isFetchingBooks: false,
     isFetchingMoreBooks: false,
+    isFetchingBook: false,
     books: [
         {
             kind: "books#volume",
@@ -413,6 +414,7 @@ beforeEach(() => {
         pageSize: 30,
         searchResults: 0,
         isFetchingBooks: false,
+        isFetchingBook: false,
         isFetchingMoreBooks: false,
         books: [
             {
@@ -1413,6 +1415,14 @@ test("is fetching books changed success", () => {
 
     expect(newState.isFetchingBooks).toBeTruthy();
     expect(newState2.isFetchingBooks).toBeFalsy();
+});
+
+test("is fetching book changed success", () => {
+    const newState = searchBooksReducer(state, searchBooksActions.isFetchingBookChanged(true))
+    const newState2 = searchBooksReducer(state, searchBooksActions.isFetchingBookChanged(false))
+
+    expect(newState.isFetchingBook).toBeTruthy();
+    expect(newState2.isFetchingBook).toBeFalsy();
 });
 
 test("search results changed success", () => {
