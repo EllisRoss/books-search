@@ -1,42 +1,33 @@
-import React from 'react';
-import {useSelector} from "react-redux";
+import React, {useEffect} from 'react';
+import {useDispatch, useSelector} from "react-redux";
 import {selectBookInfo} from "../../redux/searchBooksSelectors";
 import {Col, Row} from "antd";
 import styles from "./Book.module.css"
 import bookPlaceholder from "../../assets/images/book-placeholder.png";
-
+import {useHistory} from "react-router-dom";
+import {getBook} from "../../redux/searchBooksReducer";
 
 export const Book: React.FC = React.memo(() => {
 
     const bookInfo = useSelector(selectBookInfo);
+    const history = useHistory();
+    const dispatch = useDispatch();
 
-    const bookCover = (): string | undefined => {
-        if (bookInfo) {
-            if (bookInfo.volumeInfo.imageLinks?.extraLarge) {
-                return bookInfo.volumeInfo.imageLinks?.extraLarge;
-            }
-            if (bookInfo.volumeInfo.imageLinks?.large) {
-                return bookInfo.volumeInfo.imageLinks?.large;
-            }
-            if (bookInfo.volumeInfo.imageLinks?.medium) {
-                return bookInfo.volumeInfo.imageLinks?.medium;
-            }
-            if (bookInfo.volumeInfo.imageLinks?.small) {
-                return bookInfo.volumeInfo.imageLinks?.small;
-            }
-            if (bookInfo.volumeInfo.imageLinks?.thumbnail) {
-                return bookInfo.volumeInfo.imageLinks?.thumbnail;
-            }
+    useEffect(() => {
+        // get book id from url
+        const booksId = history.location.pathname.split('/')[2];
+        if (!bookInfo && booksId) {
+            dispatch(getBook(booksId))
         }
-        return undefined;
-    }
+    },[]);
 
     if (bookInfo) {
         return (
             <div className={styles.wrapper}>
                 <Row>
                     <Col className={styles.coverWrapper} span={5}>
-                        <img src={bookCover() ? bookCover() : bookPlaceholder} alt="book's cover"/>
+                        <img src={bookInfo.volumeInfo.imageLinks?.thumbnail
+                            ? bookInfo.volumeInfo.imageLinks?.thumbnail : bookPlaceholder} alt="book's cover"/>
                     </Col>
                     <Col span={15}>
                         {
@@ -62,5 +53,4 @@ export const Book: React.FC = React.memo(() => {
             Something wrong
         </div>
     );
-
 })
