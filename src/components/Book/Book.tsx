@@ -6,6 +6,8 @@ import styles from "./Book.module.css"
 import bookPlaceholder from "../../assets/images/book-placeholder.png";
 import {useHistory} from "react-router-dom";
 import {getBook} from "../../redux/searchBooksReducer";
+import Preloader from "../common/Preloader/Preloader";
+import Preloader300px from "../../assets/images/Preloader300px.svg";
 
 export const Book: React.FC = React.memo(() => {
 
@@ -49,8 +51,6 @@ export const Book: React.FC = React.memo(() => {
     }
 
     return (
-        <div>
-            Something wrong
-        </div>
+        <Preloader src={Preloader300px} />
     );
 })
