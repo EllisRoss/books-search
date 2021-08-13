@@ -29,7 +29,7 @@ const App: React.FC = React.memo(() => {
             <div className={styles.content}>
                 <Switch>
                     <Route exact path='/' render={() => <Books/> } />
-                    <Route exact path='/book/:id?' render={() => <Book/> } />
+                    <Route exact path='/book/:id' render={() => <Book/> } />
                     <Route path='*' render={() => <Empty description='404 not found' />}/>
                 </Switch>
             </div>
