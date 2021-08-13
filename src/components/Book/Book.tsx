@@ -32,25 +32,25 @@ export const Book: React.FC = React.memo(() => {
 
     if (bookInfo) {
         return (
-            <div className={styles.wrapper}>
+            <div className={styles.book}>
                 <Row>
-                    <Col className={styles.coverWrapper} span={5}>
+                    <Col className={styles.book__cover} span={5}>
                         <img src={bookInfo.volumeInfo.imageLinks?.thumbnail
                             ? bookInfo.volumeInfo.imageLinks?.thumbnail : bookPlaceholder} alt="book's cover"/>
                     </Col>
                     <Col span={15}>
                         {
                             bookInfo.volumeInfo.categories &&
-                            <div className={styles.categories}>{bookInfo.volumeInfo.categories.join(' / ')}</div>
+                            <div className={styles.book__categories}>{bookInfo.volumeInfo.categories.join(' / ')}</div>
                         }
 
-                        <div className={styles.title}><b>{bookInfo.volumeInfo.title}</b></div>
+                        <div className={styles.book__title}><b>{bookInfo.volumeInfo.title}</b></div>
 
                         {
                             bookInfo.volumeInfo.authors &&
-                            <div className={styles.authors}>{bookInfo.volumeInfo.authors.join(', ')}</div>
+                            <div className={styles.book__authors}>{bookInfo.volumeInfo.authors.join(', ')}</div>
                         }
-                        <div className={styles.description}>{bookInfo.volumeInfo.description}</div>
+                        <div className={styles.book__description}>{bookInfo.volumeInfo.description}</div>
                     </Col>
                 </Row>
             </div>
