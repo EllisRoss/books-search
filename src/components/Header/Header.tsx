@@ -25,7 +25,7 @@ export const Header: React.FC = () => {
     const onSubmit = (values: FormValues, actions: FormikHelpers<FormValues>) => {
         actions.setSubmitting(false);
         dispatch(getBooks(values.query, values.category, values.sortBy))
-        history.push('/books');
+        history.push('/');
     }
 
     const initialValues: FormValues = {query: '', category: 'all' , sortBy: 'relevance'}
