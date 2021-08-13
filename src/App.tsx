@@ -5,8 +5,9 @@ import 'antd/dist/antd.css';
 import styles from "./App.module.css";
 import {Header} from './components/Header/Header';
 import {Books} from "./components/Books/Books";
-import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
+import {BrowserRouter, Route, Switch} from "react-router-dom";
 import { Book } from './components/Book/Book';
+import { Empty } from 'antd';
 
 const App: React.FC = React.memo(() => {
 
@@ -27,10 +28,9 @@ const App: React.FC = React.memo(() => {
             <Header/>
             <div className={styles.content}>
                 <Switch>
-                    <Route exact path='/' render={() => <Redirect to='/books'/> } />
-                    <Route path='/books' render={() => <Books/> } />
-                    <Route path='/book/:id?' render={() => <Book/> } />
-                    <Route path='*' render={() => <div>404 NOT FOUND</div>}/>
+                    <Route exact path='/' render={() => <Books/> } />
+                    <Route exact path='/book/:id?' render={() => <Book/> } />
+                    <Route path='*' render={() => <Empty description='404 not found' />}/>
                 </Switch>
             </div>
         </div>
