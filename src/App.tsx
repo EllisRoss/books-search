@@ -40,7 +40,7 @@ const App: React.FC = React.memo(() => {
 export const SearchBooksApp: React.FC = () => {
     return (
         <React.StrictMode>
-            <BrowserRouter basename={process.env.PUBLIC_URL}>
+            <BrowserRouter>
                 <Provider store={store}>
                     <App/>
                 </Provider>
