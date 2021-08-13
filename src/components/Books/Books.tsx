@@ -1,5 +1,5 @@
 import {Button, List} from 'antd';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {
@@ -18,52 +18,14 @@ import {CardItem} from "./CardItem";
 
 export const Books: React.FC = React.memo(() => {
 
-    const [col, setCol] = useState(4)
-
-    // set max columns in antd List
-    const handleResize = () => {
-        if (window.innerWidth < 600) {
-            setCol(1);
-        }
-        if (window.innerWidth >= 600) {
-            setCol(2)
-        }
-        if (window.innerWidth >= 900) {
-            setCol(3)
-        }
-        if (window.innerWidth >= 1200) {
-            setCol(4)
-        }
-        if (window.innerWidth >= 1500) {
-            setCol(5)
-        }
-        if (window.innerWidth >= 1800) {
-            setCol(6)
-        }
-        if (window.innerWidth >= 2100) {
-            setCol(7)
-        }
-        if (window.innerWidth >= 2400) {
-            setCol(8)
-        }
-    }
-
-    useEffect(() => {
-        window.addEventListener("resize", handleResize);
-
-        return () => {
-            window.removeEventListener("resize", handleResize);
-        }
-    }, [])
-
-    const dispatch = useDispatch();
-
     const books = useSelector(selectBooks);
     const searchResults = useSelector(selectSearchResults);
     const isFetchingBooks = useSelector(selectIsFetchingBooks);
     const isFetchingMoreBooks = useSelector(selectIsFetchingMoreBooks);
     const pageSize = useSelector(selectPageSize);
     const filter = useSelector(selectFilter);
+
+    const dispatch = useDispatch();
 
     const onLoadMore = () => {
         if (filter) {
@@ -75,14 +37,16 @@ export const Books: React.FC = React.memo(() => {
         return <Preloader src={Preloader300px}/>
     }
     return (
-        <div className={styles.wrapper}>
+        <div className={styles.books}>
             {
                 books.length > 0 &&
-                <div className={styles.foundResults}>Found {searchResults} results</div>
+                <div className={styles.books__results}>
+                    <b>Found {searchResults} results</b>
+                </div>
             }
 
             <List
-                grid={{gutter: 16, column: col}}
+                grid={{gutter: 16}}
                 dataSource={books}
                 renderItem={item => (
                     <List.Item>
@@ -90,7 +54,7 @@ export const Books: React.FC = React.memo(() => {
                             // dispatch current book data to state
                             dispatch(searchBooksActions.bookInfoChanged(item))
                         }}>
-                            <CardItem itemInfo={item.volumeInfo} />
+                            <CardItem itemInfo={item.volumeInfo}/>
                         </NavLink>
                     </List.Item>
                 )}
@@ -101,7 +65,7 @@ export const Books: React.FC = React.memo(() => {
             }
             {
                 books.length > 0 &&
-                <Button className={styles.loadMoreButton} onClick={onLoadMore} size="large">Load more...</Button>
+                <Button className={styles.books__button} onClick={onLoadMore} size="large">Load more...</Button>
             }
         </div>
     );
