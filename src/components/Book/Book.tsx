@@ -24,10 +24,10 @@ export const Book: React.FC = React.memo(() => {
                 dispatch(getBook(booksId))
             }
         }
-    },[]);
+    }, []);
 
     if (isFetchingBook) {
-        return <Preloader src={preloader300px} />
+        return <Preloader src={preloader300px}/>
     }
 
     if (bookInfo) {
@@ -50,14 +50,16 @@ export const Book: React.FC = React.memo(() => {
                             bookInfo.volumeInfo.authors &&
                             <div className={styles.book__authors}>{bookInfo.volumeInfo.authors.join(', ')}</div>
                         }
-                        <div className={styles.book__description}>{bookInfo.volumeInfo.description}</div>
+                        <div className={styles.book__description}>
+                            {bookInfo.volumeInfo.description}
+                        </div>
                     </Col>
                 </Row>
             </div>
         );
     } else {
         return (
-            <Empty />
+            <Empty/>
         );
     }
 })

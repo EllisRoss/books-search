@@ -29,10 +29,11 @@
     font-size: 16pt;
     padding-left: 20px;
     padding-bottom: 20px;
+    line-height: 1.5;
 }
 
 .book__description {
     font-size: 14pt;
-    /*text-align: center;*/
+    line-height: 1.5;
     padding: 20px;
 }
